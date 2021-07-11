@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:newsapp/enums/view_state.dart';
 import 'package:newsapp/pages/base_page/base_view.dart';
+import 'package:newsapp/pages/detailed_page.dart';
 import 'package:newsapp/scoped_model/home_scoped_model.dart';
 import 'package:newsapp/widgets/busy_indicator/busy_overlay_widget.dart';
 
@@ -25,17 +26,22 @@ class _HomePageState extends State<HomePage> {
           return BusyOverlayWidget(
               show: model.state == ViewState.Busy,
               child: Scaffold(
-                  body:
-                      //Body
-                      SingleChildScrollView(
-                          child: Column(children: [
+                  body: SingleChildScrollView(
+                      child: Column(children: [
+                //App Bar
                 AppBarHomeWidget(),
+                //Body
                 model.state == ViewState.Retrieved
                     ? ListView.builder(
                         shrinkWrap: true,
                         physics: ScrollPhysics(),
                         itemCount: model.home.articles.length,
                         itemBuilder: (context, index) => ListTile(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        DetailedPage()));
+                              },
                               title: index % 2 == 0
                                   ? Text(model.home.articles[index].title,
                                       style: TextStyle(
@@ -48,10 +54,8 @@ class _HomePageState extends State<HomePage> {
                               subtitle:
                                   Text(model.home.articles[index].description),
                             ))
-                    : Container()
-              ])
-                          //BottomNavigation
-                          )));
+                    : Container(),
+              ]))));
         });
   }
 }
@@ -61,7 +65,12 @@ class AppBarHomeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 100,
+      width: MediaQuery.of(context).size.width,
       color: Colors.yellow,
+      child: Text(
+        'News APP',
+        textAlign: TextAlign.center,
+      ),
     );
   }
 }
@@ -73,15 +82,5 @@ class BodyHomeWidget extends StatelessWidget {
         child: Container(
       color: Colors.red,
     ));
-  }
-}
-
-class BottomNavigationWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 59,
-      color: Colors.green,
-    );
   }
 }
