@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:newsapp/enums/view_state.dart';
 import 'package:newsapp/pages/base_page/base_view.dart';
-import 'package:newsapp/pages/detailed_page.dart';
 import 'package:newsapp/scoped_model/home_scoped_model.dart';
 import 'package:newsapp/utils/styles/color_style.dart';
 import 'package:newsapp/widgets/busy_indicator/busy_overlay_widget.dart';
@@ -18,6 +17,7 @@ class _HomePageState extends State<HomePage> {
   HomeScopedModel model = HomeScopedModel();
 
   bool onClick = false;
+  int i = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -78,13 +78,20 @@ class _HomePageState extends State<HomePage> {
                                                 topLeft: Radius.circular(10),
                                                 bottomLeft:
                                                     Radius.circular(10)),
-                                            child: Image.network(
-                                              model.home.articles[index]
-                                                  .urlToImage,
-                                              width: 70.0,
-                                              height: 95,
-                                              fit: BoxFit.fill,
-                                            ),
+                                            child: model.home.articles[index]
+                                                        .urlToImage !=
+                                                    null
+                                                ? Image.network(
+                                                    model.home.articles[index]
+                                                        .urlToImage,
+                                                    width: 70.0,
+                                                    height: 95,
+                                                    fit: BoxFit.fill,
+                                                  )
+                                                : Container(
+                                                    width: 70.0,
+                                                    height: 95,
+                                                  ),
                                           )),
                                       Expanded(
                                           flex: 7,
@@ -157,23 +164,7 @@ class _HomePageState extends State<HomePage> {
                                                 ]),
                                           ))
                                     ],
-                                  )
-
-                                  // ListTile(
-                                  //   onTap: () {
-                                  //     Navigator.of(context).push(
-                                  //         MaterialPageRoute(
-                                  //             builder: (BuildContext context) =>
-                                  //                 DetailedPage()));
-                                  //   },
-                                  //   title: Text(model.home.articles[index].title,
-                                  //       style: TextStyle(
-                                  //           color: ColorStyle.midnightBlue,
-                                  //           fontWeight: FontWeight.bold)),
-                                  //   subtitle: Text(
-                                  //       model.home.articles[index].description),
-                                  // ),
-                                  ),
+                                  )),
                             )
                           : Container(),
                     ],
@@ -181,87 +172,68 @@ class _HomePageState extends State<HomePage> {
                 ),
 
                 //App Bar
-                AppBarHomeWidget(),
+                Container(
+                  padding: EdgeInsets.only(top: 40, left: 20),
+                  height: 115,
+                  width: MediaQuery.of(context).size.width,
+                  color: ColorStyle.midnightBlue,
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(bottom: 7),
+                          child: Text(
+                            'News APP',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                        ),
+                        Container(
+                          height: 40,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: ScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: model.categoriesList.length,
+                            itemBuilder: (context, index) => InkWell(
+                              onTap: () async {
+                                setState(() {
+                                  i = index;
+                                });
+                                model.setCategory(
+                                    model.categoriesList[index].categoryTitle);
+                                await model.getNewsScopedModel();
+                                // Navigator.of(context).push(MaterialPageRoute(
+                                //     builder: (BuildContext context) => DetailedPage()));
+                              },
+                              child: Container(
+                                padding: EdgeInsets.only(right: 10),
+                                child: Text(
+                                  model.categoriesList[index].categoryTitle
+                                      .toUpperCase(),
+                                  style: i == index
+                                      ? TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14)
+                                      : TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      ]),
+                )
               ]),
             ),
           );
         });
-  }
-}
-
-class AppBarHomeWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(top: 40, left: 20),
-      height: 100,
-      width: MediaQuery.of(context).size.width,
-      color: ColorStyle.midnightBlue,
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Container(
-          padding: EdgeInsets.only(bottom: 7),
-          child: Text(
-            'News APP',
-            textAlign: TextAlign.left,
-            style: TextStyle(
-                fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-        ),
-        Row(
-          children: [
-            Container(
-              child: Text(
-                'All News',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(left: 15),
-              child: Text(
-                'Fashion',
-                style: TextStyle(
-                    color: Colors.grey,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(left: 15),
-              child: Text(
-                'Sport',
-                style: TextStyle(
-                    color: Colors.grey,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(left: 15),
-              child: Text(
-                'Entertainment',
-                style: TextStyle(
-                    color: Colors.grey,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(left: 15),
-              child: Text(
-                'Technology',
-                style: TextStyle(
-                    color: Colors.grey,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14),
-              ),
-            )
-          ],
-        )
-      ]),
-    );
   }
 }
 
