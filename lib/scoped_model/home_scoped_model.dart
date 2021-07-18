@@ -3,7 +3,6 @@ import 'package:newsapp/models/base/base_model.dart';
 import 'package:newsapp/models/home_model.dart';
 import 'package:newsapp/services/home_service.dart';
 import 'package:newsapp/utils/locator.dart';
-import 'package:scoped_model/scoped_model.dart';
 
 class HomeScopedModel extends BaseModel {
   final HomeService homeService = locator<HomeService>();

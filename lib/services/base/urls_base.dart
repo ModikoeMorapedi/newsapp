@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 final String apiKey = '2075b063336a440991b63d014f0d6850';
 String baseUrl = 'newsapi.org';
 final String from = '2021-07-04';
