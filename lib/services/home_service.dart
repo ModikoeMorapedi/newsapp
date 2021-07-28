@@ -15,7 +15,7 @@ class HomeService {
       }
 
       final response = await http.get(Uri.parse(
-          'https://newsapi.org/v2/top-headlines?sortBy=publishedAt&category=$category&language=en&apiKey=2075b063336a440991b63d014f0d6850'));
+          'https://newsapi.org/v2/top-headlines?sortBy=publishedAt&country=za&category=$category&language=en&apiKey=2075b063336a440991b63d014f0d6850'));
 
       print('Selected category is : ' +
           category.toUpperCase() +

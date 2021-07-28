@@ -8,7 +8,15 @@ import 'package:newsapp/utils/locator.dart';
 class HomeScopedModel extends BaseModel {
   final HomeService homeService = locator<HomeService>();
 
+  static String description;
+
+  static String title;
+
+  static String image;
+
   Home _home;
+
+  Articles _articles;
 
   List<Categoty> _categoryList;
 
@@ -16,10 +24,19 @@ class HomeScopedModel extends BaseModel {
 
   Home get home => _home;
 
+  Articles get articles => _articles;
+
   static String selectedCategory;
 
   void setCategory(String category) {
     selectedCategory = category;
+  }
+
+  void setArticles(Articles article) {
+    _articles = article;
+    description = _articles.description;
+    title = _articles.title;
+    image = _articles.urlToImage;
   }
 
   List<Categoty> categoriesList = [
@@ -38,6 +55,19 @@ class HomeScopedModel extends BaseModel {
       final response = await homeService.getNewsService(selectedCategory);
 
       response.status == 'ok' ? _home = response : null;
+      for (var item in _home.articles) {
+        if (item != null) {
+          if (item.urlToImage == null) {
+            item.urlToImage = 'https://source.unsplash.com/weekly?coding';
+          }
+          if (item.description == null) {
+            item.description = "No description";
+          }
+          if (item.description == null) {
+            item.title = "No title";
+          }
+        }
+      }
       setState(ViewState.Retrieved);
     } catch (e) {
       setState(ViewState.Error);
