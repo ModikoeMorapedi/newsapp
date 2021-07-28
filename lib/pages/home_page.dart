@@ -6,6 +6,7 @@ import 'package:newsapp/pages/base_page/base_view.dart';
 import 'package:newsapp/scoped_model/home_scoped_model.dart';
 import 'package:newsapp/utils/styles/color_style.dart';
 import 'package:newsapp/widgets/busy_indicator/busy_overlay_widget.dart';
+import 'package:newsapp/widgets/cards/home_card_widget.dart';
 
 import 'detailed_page.dart';
 
@@ -27,6 +28,8 @@ class _HomePageState extends State<HomePage> {
     return BaseView<HomeScopedModel>(
         onModelReady: (homeScopedModel) => homeScopedModel.getNewsScopedModel(),
         builder: (context, child, model) {
+          String date = model.articles.publishedAt;
+          String dateTime = date.substring(11, 16);
           return BusyOverlayWidget(
             show: model.state == ViewState.Busy,
             child: Scaffold(
@@ -67,132 +70,27 @@ class _HomePageState extends State<HomePage> {
                               physics: ScrollPhysics(),
                               itemCount: model.home.articles.length,
                               itemBuilder: (context, index) => InkWell(
-                                onTap: () {
-                                  model.setArticles(model.home.articles[index]);
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          DetailedPage()));
-                                },
-                                child: Card(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    margin: EdgeInsets.only(
-                                        left: 15, right: 15, bottom: 15),
-                                    color: Colors.white,
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                            flex: 3,
-                                            child: ClipRRect(
-                                                borderRadius: BorderRadius.only(
-                                                    topLeft:
-                                                        Radius.circular(10),
-                                                    bottomLeft:
-                                                        Radius.circular(10)),
-                                                child: model
-                                                            .home
-                                                            .articles[index]
-                                                            .urlToImage !=
-                                                        null
-                                                    ? CachedNetworkImage(
-                                                        imageUrl: model
-                                                            .home
-                                                            .articles[index]
-                                                            .urlToImage,
-                                                        width: 70.0,
-                                                        height: 95,
-                                                        placeholder:
-                                                            (context, url) =>
-                                                                Center(
-                                                          child: Image.network(
-                                                              'https://source.unsplash.com/weekly?coding'),
-                                                        ),
-                                                        errorWidget: (context,
-                                                                url, error) =>
-                                                            Image.network(
-                                                                'https://source.unsplash.com/weekly?coding'),
-                                                      )
-                                                    : Image.network(
-                                                        'https://source.unsplash.com/weekly?coding',
-                                                        width: 70.0,
-                                                        height: 95,
-                                                        fit: BoxFit.fill,
-                                                      ))),
-                                        Expanded(
-                                            flex: 7,
-                                            child: Container(
-                                              margin: EdgeInsets.only(
-                                                  left: 15, right: 15),
-                                              child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Container(
-                                                      margin: EdgeInsets.only(
-                                                          bottom: 7),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Container(
-                                                            width: 45,
-                                                            height: 22,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color: Colors.red,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .all(
-                                                                Radius.circular(
-                                                                    7),
-                                                              ),
-                                                            ),
-                                                            child: Text(
-                                                              'Tech',
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            child: Text(
-                                                              '02:00 PM',
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .grey,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
-                                                            ),
-                                                          )
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                        child: Text(
-                                                      model.home.articles[index]
-                                                          .title,
-                                                      maxLines: 2,
-                                                      softWrap: true,
-                                                      style: TextStyle(
-                                                          color: ColorStyle
-                                                              .midnightBlue,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ))
-                                                  ]),
-                                            ))
-                                      ],
-                                    )),
-                              ),
+                                  onTap: () {
+                                    model.setArticles(
+                                        model.home.articles[index]);
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                DetailedPage()));
+                                  },
+                                  child: HomeCardWidget(
+                                    imageUrl:
+                                        model.home.articles[index].urlToImage,
+                                    title:
+                                        model.home.articles[index].source.name,
+                                    subTitle: model.home.articles[index].title,
+                                    titleColor: model.home.articles[index]
+                                                .source.name ==
+                                            'News24'
+                                        ? ColorStyle.midnightBlue
+                                        : Colors.yellow,
+                                    time: dateTime,
+                                  )),
                             )
                           : Container(),
                     ],
