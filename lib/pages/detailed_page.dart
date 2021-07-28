@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:newsapp/pages/base_page/base_view.dart';
 import 'package:newsapp/scoped_model/home_scoped_model.dart';
+import 'package:newsapp/utils/styles/color_style.dart';
 import 'package:newsapp/widgets/busy_indicator/busy_overlay_widget.dart';
 
 class DetailedPage extends StatefulWidget {
@@ -16,13 +17,74 @@ class _DetailedPageState extends State<DetailedPage> {
   Widget build(BuildContext context) {
     return BaseView<HomeScopedModel>(
       builder: (context, child, model) => BusyOverlayWidget(
-          child: Scaffold(
-        body: Container(
-          color: Colors.blue,
-          width: 200,
-          height: 200,
+        child: Scaffold(
+          backgroundColor: ColorStyle.midnightBlue,
+          body: Column(
+            children: [
+              Stack(
+                children: [
+                  Container(
+                    child: Image.network(
+                      HomeScopedModel.image,
+                      width: MediaQuery.of(context).size.width,
+                      height: 295,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    top: 0,
+                    left: 0,
+                    //height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: new LinearGradient(
+                          colors: [
+                            ColorStyle.midnightBlue,
+                            ColorStyle.midnightBlue.withOpacity(0.2)
+                          ],
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                      bottom: 5,
+                      top: 230.0,
+                      left: 30,
+                      width: 350,
+                      child: Text(
+                        HomeScopedModel.title,
+                        maxLines: 3,
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
+                      )),
+                ],
+              ),
+              Container(
+                  padding: EdgeInsets.only(top: 10, left: 30, right: 30),
+                  child: RichText(
+                    text: TextSpan(
+                      text: HomeScopedModel.description,
+                      style: TextStyle(
+                          fontSize: 13,
+                          color: Colors.white,
+                          fontWeight: FontWeight.normal),
+                      children: const <TextSpan>[
+                        TextSpan(
+                            text: ' see more',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                  )),
+            ],
+          ),
         ),
-      )),
+      ),
     );
   }
 }
