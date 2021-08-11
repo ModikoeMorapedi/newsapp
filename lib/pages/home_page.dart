@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:newsapp/enums/view_state.dart';
@@ -28,8 +29,10 @@ class _HomePageState extends State<HomePage> {
     return BaseView<HomeScopedModel>(
         onModelReady: (homeScopedModel) => homeScopedModel.getNewsScopedModel(),
         builder: (context, child, model) {
-          String date = model.articles.publishedAt;
-          String dateTime = date.substring(11, 16);
+          // String date = model.articles.publishedAt != null
+          //     ? model.articles.publishedAt
+          //     : '"2002-02-27T14:00:00-0500';
+          //String dateTime = date.substring(11, 16);
           return BusyOverlayWidget(
             show: model.state == ViewState.Busy,
             child: Scaffold(
@@ -71,6 +74,9 @@ class _HomePageState extends State<HomePage> {
                               itemCount: model.home.articles.length,
                               itemBuilder: (context, index) => InkWell(
                                   onTap: () {
+                                    FirebaseAnalytics().logEvent(
+                                        name: 'Selected article',
+                                        parameters: null);
                                     model.setArticles(
                                         model.home.articles[index]);
                                     Navigator.of(context).push(
@@ -88,8 +94,9 @@ class _HomePageState extends State<HomePage> {
                                                 .source.name ==
                                             'News24'
                                         ? ColorStyle.midnightBlue
-                                        : Colors.yellow,
-                                    time: dateTime,
+                                        : Colors.blueGrey,
+                                    time: model.home.articles[index].publishedAt
+                                        .substring(11, 16),
                                   )),
                             )
                           : Container(),

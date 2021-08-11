@@ -56,21 +56,23 @@ class HomeCardWidget extends StatelessWidget {
   }
 
   Widget titleContainerWidget() {
-    return Container(
-      padding: EdgeInsets.only(left: 4, right: 4, top: 4),
-      height: 22,
-      decoration: BoxDecoration(
-        color: titleColor ?? Colors.red,
-        borderRadius: BorderRadius.all(
-          Radius.circular(7),
-        ),
-      ),
-      child: Text(
-        title,
-        textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-      ),
-    );
+    return Flexible(
+        child: Container(
+            padding: EdgeInsets.only(left: 4, right: 4, top: 4),
+            margin: EdgeInsets.only(right: 3),
+            height: 22,
+            decoration: BoxDecoration(
+              color: titleColor ?? Colors.red,
+              borderRadius: BorderRadius.all(
+                Radius.circular(7),
+              ),
+            ),
+            child: Text(
+              title,
+              textAlign: TextAlign.center,
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            )));
   }
 
   Widget timeContainerWidget() {

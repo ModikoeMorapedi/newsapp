@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "187958218804",
+    "project_id": "updatesapp-39b2a",
+    "storage_bucket": "updatesapp-39b2a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:187958218804:android:4947f24345f4c773153a61",
+        "android_client_info": {
+          "package_name": "com.example.newsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "187958218804-ihaseo37lhfnitnjl829suii9br8khl8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIgS0ZllVhfn62lrrhFy12tjyiOa88sMM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "187958218804-ihaseo37lhfnitnjl829suii9br8khl8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
