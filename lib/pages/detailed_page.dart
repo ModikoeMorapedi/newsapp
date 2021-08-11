@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:newsapp/pages/base_page/base_view.dart';
@@ -24,11 +25,17 @@ class _DetailedPageState extends State<DetailedPage> {
               Stack(
                 children: [
                   Container(
-                    child: Image.network(
-                      HomeScopedModel.image,
-                      width: MediaQuery.of(context).size.width,
+                    child: CachedNetworkImage(
+                      imageUrl: HomeScopedModel.image,
                       height: 295,
+                      width: MediaQuery.of(context).size.width,
                       fit: BoxFit.fill,
+                      placeholder: (context, url) => Center(
+                        child: Image.network(
+                            'https://source.unsplash.com/weekly?coding'),
+                      ),
+                      errorWidget: (context, url, error) => Image.network(
+                          'https://source.unsplash.com/weekly?coding'),
                     ),
                   ),
                   Positioned(
