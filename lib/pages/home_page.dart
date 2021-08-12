@@ -46,8 +46,21 @@ class _HomePageState extends State<HomePage> {
                           ? Container(
                               margin: EdgeInsets.only(top: 83),
                               height: 250,
-                              child: Image.network(
-                                  model.home.articles[3].urlToImage),
+                              child: CachedNetworkImage(
+                                imageUrl: model.home.articles[3].urlToImage,
+                                fit: BoxFit.fill,
+                                placeholder: (context, url) => Center(
+                                  child: Image.asset(
+                                    'assets/images/placeholderImage.jpg',
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    Image.asset(
+                                  'assets/images/placeholderImage.jpg',
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
                             )
                           : Container(),
                       Row(
