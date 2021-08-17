@@ -46,10 +46,17 @@ class HomeCardWidget extends StatelessWidget {
           width: 70.0,
           fit: BoxFit.fill,
           placeholder: (context, url) => Center(
-            child: Image.network('https://source.unsplash.com/weekly?coding'),
+            child: Image.asset(
+              'assets/images/placeholderImage.jpg',
+              height: 90,
+              fit: BoxFit.fill,
+            ),
           ),
-          errorWidget: (context, url, error) =>
-              Image.network('https://source.unsplash.com/weekly?coding'),
+          errorWidget: (context, url, error) => Image.asset(
+            'assets/images/placeholderImage.jpg',
+            height: 90,
+            fit: BoxFit.fill,
+          ),
         ),
       ),
     );

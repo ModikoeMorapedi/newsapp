@@ -43,19 +43,63 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     children: [
                       model.state == ViewState.Retrieved
-                          ? Container(
-                              margin: EdgeInsets.only(top: 83),
-                              height: 250,
-                              child: Image.network(
-                                  model.home.articles[3].urlToImage),
-                            )
+                          ? Stack(children: [
+                              Container(
+                                margin: EdgeInsets.only(top: 83),
+                                height: 250,
+                                child: CachedNetworkImage(
+                                  imageUrl: model.home.articles[3].urlToImage,
+                                  fit: BoxFit.fill,
+                                  width: MediaQuery.of(context).size.width,
+                                  placeholder: (context, url) => Center(
+                                    child: Image.asset(
+                                      'assets/images/placeholderImage.jpg',
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      Image.asset(
+                                    'assets/images/placeholderImage.jpg',
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                  bottom: 5,
+                                  top: 270.0,
+                                  left: 30,
+                                  child: Text(
+                                    model.home.articles[3].author != null
+                                        ? model.home.articles[3].author
+                                        : 'Updates24',
+                                    maxLines: 3,
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  )),
+                              Positioned(
+                                bottom: 5,
+                                top: 290.0,
+                                left: 30,
+                                width: 360,
+                                child: Text(
+                                  model.home.articles[3].title,
+                                  maxLines: 3,
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              )
+                            ])
                           : Container(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            margin: EdgeInsets.only(left: 15),
-                            child: Text('Trending',
+                            margin: EdgeInsets.only(left: 15, top: 5),
+                            child: Text('What\'s happening',
                                 style: TextStyle(
                                   color: ColorStyle.midnightBlue,
                                   fontWeight: FontWeight.bold,

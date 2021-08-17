@@ -18,9 +18,13 @@ class HomeScopedModel extends BaseModel {
 
   Articles _articles;
 
+  static List<Articles> _articlesList;
+
   List<Categoty> _categoryList;
 
   List<Categoty> get categoryList => _categoryList;
+
+  List<Articles> get articlesList => _articlesList;
 
   Home get home => _home;
 
@@ -55,6 +59,8 @@ class HomeScopedModel extends BaseModel {
       final response = await homeService.getNewsService(selectedCategory);
 
       response.status == 'ok' ? _home = response : null;
+
+      _articlesList = _home.articles;
       for (var item in _home.articles) {
         if (item != null) {
           if (item.urlToImage == null) {
