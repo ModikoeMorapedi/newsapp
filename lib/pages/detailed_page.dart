@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:newsapp/pages/base_page/base_view.dart';
 import 'package:newsapp/scoped_model/home_scoped_model.dart';
@@ -75,7 +76,8 @@ class _DetailedPageState extends State<DetailedPage> {
                     ],
                   ),
                   Container(
-                      padding: EdgeInsets.only(top: 10, left: 30, right: 30),
+                      padding: EdgeInsets.only(
+                          top: 10, left: 30, right: 30, bottom: 20),
                       child: RichText(
                         text: TextSpan(
                           text: HomeScopedModel.description,
@@ -85,11 +87,19 @@ class _DetailedPageState extends State<DetailedPage> {
                               fontWeight: FontWeight.normal),
                           children: const <TextSpan>[
                             TextSpan(
+                                //recognizer: ,
                                 text: ' see more',
                                 style: TextStyle(fontWeight: FontWeight.bold)),
                           ],
                         ),
                       )),
+                  Container(
+                    child: Text('Sport Updates',
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold)),
+                  ),
                   ListView.builder(
                     shrinkWrap: true,
                     physics: ScrollPhysics(),
