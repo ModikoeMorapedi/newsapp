@@ -1,3 +1,8 @@
+Map<String, dynamic> data = {
+  'home': Home,
+  'articles': Articles,
+};
+
 class Home {
   String status;
   int totalResults;

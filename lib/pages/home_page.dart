@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:newsapp/enums/view_state.dart';
+import 'package:newsapp/models/home_model.dart';
 import 'package:newsapp/pages/base_page/base_view.dart';
 import 'package:newsapp/scoped_model/home_scoped_model.dart';
 import 'package:newsapp/utils/app_images.dart';
@@ -118,12 +119,12 @@ class _HomePageState extends State<HomePage> {
                                     FirebaseAnalytics().logEvent(
                                         name: 'Selected article',
                                         parameters: null);
-                                    model.setArticles(
-                                        model.home.articles[index]);
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                DetailedPage()));
+                                    Navigator.of(context).pushNamed(
+                                        '/DetailedPage',
+                                        arguments: data = {
+                                          'home': model.home,
+                                          'articles': model.home.articles[index]
+                                        });
                                   },
                                   child: HomeCardWidget(
                                     imageUrl:

@@ -1,32 +1,50 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:newsapp/scoped_model/home_scoped_model.dart';
-import 'package:newsapp/utils/locator.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:newsapp/models/home_model.dart';
+import 'package:newsapp/utils/app_strings.dart';
 import 'package:newsapp/utils/styles/color_style.dart';
-import 'package:newsapp/widgets/cards/home_card_widget.dart';
 
 class DetailedPage extends StatefulWidget {
-  const DetailedPage({Key key}) : super(key: key);
+  final Map data;
+  const DetailedPage({this.data, Key key}) : super(key: key);
 
   @override
   _DetailedPageState createState() => _DetailedPageState();
 }
 
 class _DetailedPageState extends State<DetailedPage> {
-  final HomeScopedModel model = locator<HomeScopedModel>();
+  Articles articles;
+  Home home;
+  //final HomeScopedModel model = locator<HomeScopedModel>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.data != null) {
+      articles = widget.data['articles'];
+      home = widget.data['home'];
+    } else {
+      articles = null;
+      home = null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: ColorStyle.midnightBlue,
         body: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Stack(
                 children: [
                   Container(
                     child: CachedNetworkImage(
-                      imageUrl: HomeScopedModel.image,
+                      imageUrl: articles.urlToImage,
                       height: 295,
                       width: MediaQuery.of(context).size.width,
                       fit: BoxFit.fill,
@@ -63,7 +81,7 @@ class _DetailedPageState extends State<DetailedPage> {
                       left: 30,
                       width: 350,
                       child: Text(
-                        HomeScopedModel.title,
+                        articles.title,
                         maxLines: 3,
                         style: TextStyle(
                             fontSize: 16,
@@ -74,10 +92,10 @@ class _DetailedPageState extends State<DetailedPage> {
               ),
               Container(
                   padding:
-                      EdgeInsets.only(top: 10, left: 30, right: 30, bottom: 20),
+                      EdgeInsets.only(top: 0, left: 30, right: 30, bottom: 10),
                   child: RichText(
                     text: TextSpan(
-                      text: HomeScopedModel.description,
+                      text: articles.description,
                       style: TextStyle(
                           fontSize: 13,
                           color: Colors.white,
@@ -85,46 +103,107 @@ class _DetailedPageState extends State<DetailedPage> {
                       children: const <TextSpan>[
                         TextSpan(
                             //recognizer: ,
-                            text: ' see more',
+                            text: ' ' + AppStrings.seeMore,
                             style: TextStyle(fontWeight: FontWeight.bold)),
                       ],
                     ),
                   )),
               Container(
-                child: Text('Sport Updates',
-                    style: TextStyle(
-                        fontSize: 18,
+                padding: EdgeInsets.only(
+                  left: 30,
+                ),
+                alignment: Alignment.bottomLeft,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
                         color: Colors.white,
-                        fontWeight: FontWeight.bold)),
+                        height: 2,
+                        width: 350,
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(top: 8, right: 30),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Related',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold)),
+                              Icon(
+                                FontAwesomeIcons.arrowCircleDown,
+                                color: Colors.white,
+                                size: 23,
+                              ),
+                            ]),
+                      )
+                    ]),
               ),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: ScrollPhysics(),
-                itemCount: model.articlesList.length,
-                itemBuilder: (context, index) => InkWell(
-                    onTap: () {
-                      // FirebaseAnalytics().logEvent(
-                      //     name: 'Selected article',
-                      //     parameters: null);
-                      // model.setArticles(
-                      //     model.home.articles[index]);
-                      // Navigator.of(context).push(
-                      //     MaterialPageRoute(
-                      //         builder: (BuildContext context) =>
-                      //             DetailedPage()));
-                    },
-                    child: HomeCardWidget(
-                      imageUrl: model.articlesList[index].urlToImage,
-                      title: model.articlesList[index].source.name,
-                      subTitle: model.articlesList[index].title,
-                      titleColor:
-                          model.articlesList[index].source.name == 'News24'
-                              ? ColorStyle.midnightBlue
-                              : Colors.blueGrey,
-                      time: model.articlesList[index].publishedAt
-                          .substring(11, 16),
-                    )),
-              )
+              Container(
+                height: 210,
+                padding: EdgeInsets.only(left: 30, top: 15),
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: ScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: home.articles.length,
+                    itemBuilder: (context, index) => InkWell(
+                          onTap: () {
+                            // FirebaseAnalytics().logEvent(
+                            //     name: 'Selected article',
+                            //     parameters: null);
+                            // model.setArticles(
+                            //     model.home.articles[index]);
+                            // Navigator.of(context).push(
+                            //     MaterialPageRoute(
+                            //         builder: (BuildContext context) =>
+                            //             DetailedPage()));
+                          },
+                          child: Container(
+                              padding: EdgeInsets.only(right: 17),
+                              height: 178,
+                              width: 270,
+                              child: Wrap(
+                                direction: Axis.horizontal,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10)),
+                                        child: CachedNetworkImage(
+                                          imageUrl:
+                                              home.articles[index].urlToImage,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          fit: BoxFit.fill,
+                                          height: 160,
+                                          placeholder: (context, url) => Center(
+                                            child: Image.network(
+                                                'https://source.unsplash.com/weekly?coding'),
+                                          ),
+                                          errorWidget: (context, url, error) =>
+                                              Image.network(
+                                                  'https://source.unsplash.com/weekly?coding'),
+                                        ),
+                                      ),
+                                      Container(
+                                          padding: EdgeInsets.only(top: 5),
+                                          child: Text(
+                                            home.articles[index].title,
+                                            maxLines: 2,
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ))
+                                    ],
+                                  )
+                                ],
+                              )),
+                        )),
+              ),
             ],
           ),
         ));

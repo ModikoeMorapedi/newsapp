@@ -8,12 +8,6 @@ import 'package:newsapp/utils/locator.dart';
 class HomeScopedModel extends BaseModel {
   final HomeService homeService = locator<HomeService>();
 
-  static String description;
-
-  static String title;
-
-  static String image;
-
   Home _home;
 
   Articles _articles;
@@ -34,13 +28,6 @@ class HomeScopedModel extends BaseModel {
 
   void setCategory(String category) {
     selectedCategory = category;
-  }
-
-  void setArticles(Articles article) {
-    _articles = article;
-    description = _articles.description;
-    title = _articles.title;
-    image = _articles.urlToImage;
   }
 
   List<Categoty> categoriesList = [

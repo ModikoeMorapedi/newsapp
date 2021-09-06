@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newsapp/utils/routes.dart';
 import 'package:newsapp/utils/size_Config.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
             SizeConfig().init(constraints, orientation);
             return MaterialApp(
               debugShowCheckedModeBanner: false,
+              onGenerateRoute: Routes.generateRoute,
               title: 'Flutter Demo',
               theme: ThemeData(
                 primarySwatch: Colors.blue,
