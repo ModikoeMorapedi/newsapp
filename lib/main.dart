@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:newsapp/utils/routes.dart';
 import 'package:newsapp/utils/size_Config.dart';
+import 'package:newsapp/views/home_page.dart';
 import 'package:scoped_model/scoped_model.dart';
-
-import 'pages/home_page.dart';
 import 'scoped_model/home_scoped_model.dart';
 import 'utils/locator.dart';
 

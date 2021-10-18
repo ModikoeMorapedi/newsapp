@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:newsapp/enums/view_state.dart';
 import 'package:newsapp/models/home_model.dart';
-import 'package:newsapp/pages/base_page/base_view.dart';
 import 'package:newsapp/scoped_model/home_scoped_model.dart';
 import 'package:newsapp/utils/app_images.dart';
 import 'package:newsapp/utils/app_sizes.dart';
@@ -14,6 +13,7 @@ import 'package:newsapp/utils/styles/color_style.dart';
 import 'package:newsapp/widgets/busy_indicator/busy_overlay_widget.dart';
 import 'package:newsapp/widgets/cards/home_card_widget.dart';
 
+import 'base_page/base_view.dart';
 import 'detailed_page.dart';
 
 class HomePage extends StatefulWidget {
